@@ -1,0 +1,36 @@
+/*     */ package WEB-INF.classes.com.bbkj.action;
+/*     */ 
+/*     */ import com.bbkj.common.utils.Page;
+/*     */ import com.bbkj.domain.Catalog;
+/*     */ import com.bbkj.domain.Image;
+/*     */ import com.bbkj.domain.Product;
+/*     */ import com.bbkj.domain.ProductExtra;
+/*     */ import com.bbkj.service.CatalogService;
+/*     */ import com.bbkj.service.DemandService;
+/*     */ import com.bbkj.service.ImgService;
+/*     */ import com.bbkj.service.ProductExtraService;
+/*     */ import com.bbkj.service.ProductService;
+/*     */ import java.util.ArrayList;
+/*     */ import java.util.List;
+/*     */ import java.util.Map;
+/*     */ import org.apache.struts2.convention.annotation.Action;
+/*     */ import org.apache.struts2.convention.annotation.InterceptorRef;
+/*     */ import org.hibernate.criterion.DetachedCriteria;
+/*     */ import org.springframework.beans.factory.annotation.Autowired;
+/*     */ 
+/*     */ @Controller
+/*     */ @ParentPackage("post")
+/*     */ @Namespace("/product")
+/*     */ public class ProductAction extends BaseAction {
+/*     */   @Autowired
+/*     */   private CatalogService catalogService;
+/*     */   @Autowired
+/*     */   private ProductExtraService productExtraService;
+/*     */   @Autowired
+/*     */   private DemandService demandService;
+/*     */   @Autowired
+/*     */   private ProductService productService;
+/*     */   @Autowired
+/*     */   private ImgService imgService;
+/*     */   
+/*  36 */   public void setCatalogService(CatalogService catalogService) { this.catalogService = catalogService; } public void setProductExtraService(ProductExtraService productExtraService) { this.productExtraService = productExtraService; } public void setDemandService(DemandService demandService) { this.demandService = demandService; } public void setProductService(ProductService productService) { this.productService = productService; } public void setImgService(ImgService imgService) { this.imgService = imgService; } public void setProduct(Product product) { this.product = product; } public void setProductExtra(ProductExtra productExtra) { this.productExtra = productExtra; } public void setNewImage(Image newImage) { this.newImage = newImage; } public void setList(List list) { this.list = list; } public void setId(long id) { this.id = id; } public void setIds(long[] ids) { this.ids = ids; } public void setDisable(boolean disable) { this.disable = disable; } public void setSecond_catalog_id(Long second_catalog_id) { this.second_catalog_id = second_catalog_id; } public void setFirst_catalog_id(Long first_catalog_id) { this.first_catalog_id = first_catalog_id; } public void setName(String name) { this.name = name; } public void setShopName(String shopName) { this.shopName = shopName; } public void setPrice(double price) { this.price = price; } public void setCount(int count) { this.count = count; } public void setNumbering(String numbering) { this.numbering = numbering; } public void setWeight(String weight) { this.weight = weight; } public void setProvince_name(String province_name) { this.province_name = province_name; } public void setCity_name(String city_name) { this.city_name = city_name; } public void setCounty_name(String county_name) { this.county_name = county_name; } public void setPhone(long phone) { this.phone = phone; } public void setProduct_id(Long product_id) { this.product_id = product_id; } public void setLocal(String local) { this.local = local; } public void setImgs(String[] imgs) { this.imgs = imgs; } public void setPage(Page page) { this.page = page; } public void setWhichpage(int whichpage) { this.whichpage = whichpage; } public void setP

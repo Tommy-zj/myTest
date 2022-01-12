@@ -1,0 +1,40 @@
+/*    */ package com.bbkj.common.security
+
+-INF.classes.com.bbkj.common.security;
+/*    */ 
+/*    */ import java.io.IOException;
+/*    */ import javax.servlet.Filter;
+/*    */ import javax.servlet.FilterChain;
+/*    */ import javax.servlet.FilterConfig;
+/*    */ import javax.servlet.ServletException;
+/*    */ import javax.servlet.ServletRequest;
+/*    */ import javax.servlet.ServletResponse;
+/*    */ import javax.servlet.http.HttpServletRequest;
+/*    */ import javax.servlet.http.HttpServletResponse;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ public class DoFiler
+/*    */   implements Filter
+/*    */ {
+/*    */   public void init(FilterConfig filterConfig) throws ServletException {}
+/*    */   
+/*    */   public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+/* 23 */     HttpServletResponse res = (HttpServletResponse)servletResponse;
+/* 24 */     HttpServletRequest request = (HttpServletRequest)servletRequest;
+/* 25 */     res.setContentType("textml;charset=UTF-8");
+/* 26 */     res.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+/* 27 */     res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+/* 28 */     res.setHeader("Access-Control-Max-Age", "0");
+/* 29 */     res.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,role,token,user");
+/*    */     
+/* 31 */     res.setHeader("Access-Control-Allow-Credentials", "true");
+/* 32 */     res.setHeader("XDomainRequestAllowed", "1");
+/*    */     
+/* 34 */     if ("OPTIONS".equals(request.getMethod())) {
+/*    */       return;
+/*    */     }
+/* 37 */     filterChain.doFilter(servletRequest, servletResponse);
+/*    */  

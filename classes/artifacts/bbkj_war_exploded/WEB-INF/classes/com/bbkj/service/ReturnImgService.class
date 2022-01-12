@@ -1,0 +1,24 @@
+/*    */ package WEB-INF.classes.com.bbkj.service.impl;
+/*    */ 
+/*    */ import com.bbkj.common.utils.Page;
+/*    */ import com.bbkj.dao.GenericRolesDao;
+/*    */ import com.bbkj.domain.GenericRoles;
+/*    */ import com.bbkj.service.GenericRolesService;
+/*    */ import java.io.Serializable;
+/*    */ import java.util.List;
+/*    */ import org.hibernate.criterion.DetachedCriteria;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Service;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ @Service
+/*    */ public class GenericRolesServiceImpl
+/*    */   implements GenericRolesService
+/*    */ {
+/*    

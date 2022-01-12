@@ -1,0 +1,71 @@
+/*    */ package com.bbkj.service.impl
+
+-INF.classes.com.bbkj.service.impl;
+/*    */ 
+/*    */ import com.bbkj.common.utils.Page;
+/*    */ import com.bbkj.dao.ProductExtraDao;
+/*    */ import com.bbkj.domain.ProductExtra;
+/*    */ import com.bbkj.service.ProductExtraService;
+/*    */ import java.io.Serializable;
+/*    */ import java.util.List;
+/*    */ import org.hibernate.criterion.Criterion;
+/*    */ import org.hibernate.criterion.DetachedCriteria;
+/*    */ import org.hibernate.criterion.Order;
+/*    */ import org.hibernate.criterion.Restrictions;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Service;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ @Service
+/*    */ public class ProductExtraServiceImpl
+/*    */   implements ProductExtraService
+/*    */ {
+/*    */   @Autowired
+/*    */   private ProductExtraDao productExtraDAO;
+/*    */   
+/*    */   public ProductExtra findById(Long id) {
+/* 30 */     return (ProductExtra)this.productExtraDAO.load(id.longValue());
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public Serializable save(ProductExtra product) {
+/* 35 */     return this.productExtraDAO.save(product);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void update(ProductExtra product) {
+/* 40 */     this.productExtraDAO.update(product);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void remove(ProductExtra product) {
+/* 45 */     this.productExtraDAO.remove(product);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void remove(long[] ids) {
+/* 50 */     this.productExtraDAO.remove(ids);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public List<ProductExtra> listAll() {
+/* 55 */     return this.productExtraDAO.listAll();
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public List<ProductExtra> list(DetachedCriteria criteria) {
+/* 60 */     return this.productExtraDAO.list(criteria);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public Page pageList(DetachedCriteria criteria, int pageNo, int pageSize) {
+/* 65 */     return this.productExtraDAO.pageList(criteria, pageNo, pageSize);
+/*    */   }
+/*    */ 
+/*    */ 
+/*    */ 

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>第一个聊天使用者</title>
+</head>
+<body>
+server地址 : <input id="serveraddress" value="ws://127.0.0.1:8088/bbkj/websocket/token/78/1/78to1" type="text"/><br/>
+房间号 : <input id="userId" type="text" value="78to1"/><br/>
+姓名 : <input id="name" type="text" value="1"/><br/>
+<button onclick="initSocket()">连接</button>
+<br/>
+
+=====================================================<br/>
+消息 : <input id="message" type="text"/><br/>
+<button onclick="send()">发送</button>
+<br/>
+=====================================================<br/>
+连接状态 :
+<button onclick="clearConnectStatu()">清空</button>
+<br/>
+<div id="connectStatu" style="height: 200px;overflow: scroll"></div>
+<br/>
+
+=====================================================<br/>
+收到消息 :<br/>
+<div id="receivedMessage" style="height: 200px;overflow: scroll"></div>
+<br/>
+=====================================================<br/>
+心跳 :<br/>
+<div id="heartdiv" style="height: 200px;overflow: scroll"></div>
+<br/>
+
+</body>
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+    var heartflag = false;
+    var webSocket = null;
+    var tryTime = 0;
+    $(function () {
+
+//        initSocket();
+        window.onbeforeunload = function () {
+
+        };
+    });
+
+    /**
+     * 初始化websocket，建立连接
+     */
+    function initSocket() {
+        var name = $("#name").val();
+        var token = ""
+        var serveraddress = $("#serveraddress").val();
+        var userId = $("#userId").val();
+        // var host = "wss:wxfa.lasons.cn/wss/bbkj/";
+        // var host = "ws://localhost:8088/bbkj/";
+        var host = "ws://127.0.0.1:8088/bbkj/websocket/fff/78/1/78to1"
+
+
+        if (!window.WebSocket) {
+            $("#connectStatu").append(getNowFormatDate() + "  您的浏览器不支持ws<br/>");
+            return false;
+        }
+        webSocket = new WebSocket(host);
+
+        // 收到服务端消息
+        webSocket.onmessage = function (msg) {
+            if (msg.data == "&") {
+                alert("心跳包")
+            } else {
+                var message = JSON.parse(msg.data);
+                console.log(message);
+                $("#receivedMessage").append(getNowFormatDate() + "信息" + ":" + decodeURI(message.data[0].msg) + "<br/>");
+            }
+        };
+
+        // 异常
+        webSocket.onerror = function (event) {
+            heartflag = false;
+            $("#connectStatu").append(getNowFormatDate() + "  异常<br/>");
+        };
+
+        // 建立连接
+        webSocket.onopen = function (event) {
+            heartflag = true;
+            //heart();
+            $("#connectStatu").append(getNowFormatDate() + "  建立连接成功<br/>");
+            tryTime = 0;
+        };
+
+        // 断线重连
+        webSocket.onclose = function () {
+            heartflag = false;
+            // 重试10次，每次之间间隔10秒
+            if (tryTime < 10) {
+                setTimeout(function () {
+                    webSocket = null;
+                    tryTime++;
+                    initSocket();
+                    $("#connectStatu").append(getNowFormatDate() + "  第" + tryTime + "次重连<br/>");
+                }, 3 * 1000);
+            } else {
+                alert("重连失败.");
+            }
+        };
+
+    }
+
+    function send() {
+        var name = $("#name").val();
+        var message = $("#message").val();
+        var info = {};
+        info.create_id = 2;
+        info.other_id = 1;
+        info.msg = encodeURI(message);
+        var json = JSON.stringify(info);
+        webSocket.send(json);
+    }
+
+    function clearConnectStatu() {
+        $("#connectStatu").empty();
+    }
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+
+    function heart() {
+        if (heartflag) {
+            var newMsg = {
+                "msg": "&"
+            }
+            var objToJson = JSON.stringify(newMsg);
+            console.log("心跳包的值", objToJson)
+            webSocket.send({
+                data: objToJson
+            })
+            $("#heartdiv").append(getNowFormatDate() + "  心跳 <br/>");
+        }
+        setTimeout("heart()", 10 * 60 * 1000);
+    }
+</script>
+</html>

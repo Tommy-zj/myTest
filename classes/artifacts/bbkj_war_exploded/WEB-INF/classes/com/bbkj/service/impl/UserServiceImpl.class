@@ -1,0 +1,88 @@
+/*    */ package com.bbkj.service.impl
+
+-INF.classes.com.bbkj.service.impl;
+/*    */ 
+/*    */ import com.bbkj.common.utils.Page;
+/*    */ import com.bbkj.dao.CertificateDao;
+/*    */ import com.bbkj.domain.Certificate;
+/*    */ import com.bbkj.service.CertificateService;
+/*    */ import java.io.Serializable;
+/*    */ import java.util.List;
+/*    */ import org.hibernate.criterion.Criterion;
+/*    */ import org.hibernate.criterion.DetachedCriteria;
+/*    */ import org.hibernate.criterion.Property;
+/*    */ import org.hibernate.criterion.Restrictions;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Service;
+/*    */ 
+/*    */ @Service
+/*    */ public class CertificateServiceImpl
+/*    */   implements CertificateService
+/*    */ {
+/*    */   @Autowired
+/*    */   private CertificateDao certificateDAO;
+/*    */   
+/*    */   public Certificate findById(Long id) {
+/* 24 */     return (Certificate)this.certificateDAO.load(id.longValue());
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public Serializable save(Certificate certificate) {
+/* 29 */     return this.certificateDAO.save(certificate);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void update(Certificate certificate) {
+/* 34 */     this.certificateDAO.update(certificate);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void remove(Certificate certificate) {
+/* 39 */     this.certificateDAO.remove(certificate);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void remove(long[] ids) {
+/* 44 */     this.certificateDAO.remove(ids);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public List<Certificate> list(DetachedCriteria criteria) {
+/* 49 */     return this.certificateDAO.list(criteria);
+/*    */   }
+/*    */ 
+/*    */ 
+/*    */   
+/*    */   public Page pageList(DetachedCriteria criteria, int pageNo, int pageSize) {
+/* 55 */     return this.certificateDAO.pageList(criteria, pageNo, pageSize);
+/*    */   }
+/*    */ 
+/*    */ 
+/*    */   
+/*    */   public List findByPerson(long personId) {
+/* 61 */     DetachedCriteria criteria = DetachedCriteria.forClass(Certificate.class).add((Criterion)Property.forName("person_id").eq(Long.valueOf(personId)));
+/* 62 */     List<Certificate> certificates = this.certificateDAO.list(criteria);
+/* 63 */     return (certificates.size() > 0) ? certificates : null;
+/*    */   }
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */   
+/*    */   public List<Certificate> findByPersonIdPass(long person_id) {
+/* 70 */     DetachedCriteria CCriteria = DetachedCriteria.forClass(Certificate.class).add((Criterion)Restrictions.eq("person_id", Long.valueOf(person_id))).add((Criterion)Restrictions.eq("state", Integer.valueOf(1)));
+/* 71 */     List<Certificate> certificates = this.certificateDAO.list(CCriteria);
+/* 72 */     return (certificates.size() > 0) ? certificates : null;
+/*    */   }
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */   
+/*    */   public Page findNotReview(int pageNo, int pageSize) {
+/* 79 */     DetachedCriteria criteria1 = DetachedCriteria.forClass(Certificate.class).add((Criterion)Restrictions.eq("state", Integer.valueOf(0))).add(Restrictions.isNull("remark"));
+/* 80 */     Page page = this.certificateDAO.pageList(criteria1, pageNo, pageSize);
+/* 81 */     return page;
+/*    */   }
+/*    */ }
+
+
+/* Location:              C:

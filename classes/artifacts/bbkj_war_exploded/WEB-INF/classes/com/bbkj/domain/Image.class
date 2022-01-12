@@ -1,0 +1,46 @@
+/*    */ package WEB-INF.classes.com.bbkj.service.impl;
+/*    */ 
+/*    */ import com.bbkj.common.utils.Page;
+/*    */ import com.bbkj.dao.SkillDao;
+/*    */ import com.bbkj.domain.Skill;
+/*    */ import com.bbkj.service.SkillService;
+/*    */ import java.io.Serializable;
+/*    */ import java.util.List;
+/*    */ import org.hibernate.criterion.DetachedCriteria;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Service;
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ 
+/*    */ @Service
+/*    */ public class SkillServiceImpl
+/*    */   implements SkillService
+/*    */ {
+/*    */   @Autowired
+/*    */   private SkillDao skillDAO;
+/*    */   
+/*    */   public Skill findById(Long id) {
+/* 28 */     return (Skill)this.skillDAO.load(id.longValue());
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public Serializable save(Skill member) {
+/* 33 */     return this.skillDAO.save(member);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void update(Skill member) {
+/* 38 */     this.skillDAO.update(member);
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public void remove(Skill member) {
+/* 43 */     this.skillDAO.remove(member);
+/*    */   }
+/*    */ 
+/*

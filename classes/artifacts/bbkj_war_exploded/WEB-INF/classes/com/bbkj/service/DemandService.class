@@ -1,0 +1,8 @@
+/*    */ package com.bbkj.domain-INF.classes.com.bbkj.domain;
+/*    */ @Entity
+/*    */ @Table(name = "t_product")
+/*    */ public class Product { @Id
+/*    */   @GeneratedValue(strategy = GenerationType.IDENTITY)
+/*    */   private long id; @Column(length = 12)
+/*    */   private long phone;
+/*  8 */   public void setId(long id) { this.id = id; } @Column(scale = 2) private double price; @Column private Long second_catalog_id; @Column(length = 32) private String name; public void setPhone(long phone) { this.phone = phone; } public void setPrice(double price) { this.price = price; } public void setSecond_catalog_id(Long second_catalog_id) { this.second_catalog_id = second_catalog_id; } public void setName(String name) { this.name = name; } public void setRecommend(int recommend) { this.recommend = recommend; } public void setNumbering(String numbering) { this.numbering = numbering; } public void setCover_img(String cover_img) { this.cover_img = cover_img; } public void setFirst_catalog_id(Long first_catalog_id) { this.first_catalog_id = first_catalog_id; } public void setDisable(boolean disable) { this.disable = disable; } public void setBrowsing_history(int browsing_history) { this.browsing_history = browsing_history; } public void setPerson_id(long person_id) { this.person_id = person_id; } public void setStatus(int status) { this.

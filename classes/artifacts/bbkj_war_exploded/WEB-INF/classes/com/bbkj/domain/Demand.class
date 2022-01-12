@@ -1,0 +1,140 @@
+/*     */ package WEB-INF.classes.com.bbkj.service.impl;
+/*     */ 
+/*     */ import com.bbkj.common.utils.Page;
+/*     */ import com.bbkj.dao.MemberDao;
+/*     */ import com.bbkj.domain.Member;
+/*     */ import com.bbkj.service.MemberService;
+/*     */ import java.io.Serializable;
+/*     */ import java.util.List;
+/*     */ import org.hibernate.Hibernate;
+/*     */ import org.hibernate.criterion.Criterion;
+/*     */ import org.hibernate.criterion.DetachedCriteria;
+/*     */ import org.hibernate.criterion.MatchMode;
+/*     */ import org.hibernate.criterion.Property;
+/*     */ import org.hibernate.criterion.Restrictions;
+/*     */ import org.springframework.beans.factory.annotation.Autowired;
+/*     */ import org.springframework.stereotype.Service;
+/*     */ 
+/*     */ @Service
+/*     */ public class MemberServiceImpl
+/*     */   implements MemberService
+/*     */ {
+/*     */   @Autowired
+/*     */   private MemberDao memberDao;
+/*     */   
+/*     */   public Member findById(Long id) {
+/*  26 */     Member member = (Member)this.memberDao.load(id.longValue());
+/*  27 */     Hibernate.initialize(member);
+/*  28 */     return member;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public Member findByOpenid(String openid) {
+/*  34 */     DetachedCriteria criteria = DetachedCriteria.forClass(Member.class).add((Criterion)Property.forName("openid").eq(openid));
+/*  35 */     List<Member> members = this.memberDao.list(criteria);
+/*  36 */     return (members.size() == 1) ? members.get(0) : null;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Serializable save(Member member) {
+/*  41 */     return this.memberDao.save(member);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void update(Member member) {
+/*  46 */     this.memberDao.update(member);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void remove(Member member) {
+/*  51 */     this.memberDao.remove(member);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void remove(long[] ids) {
+/*  56 */     this.memberDao.remove(ids);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public List<Member> listAll() {
+/*  61 */     return this.memberDao.listAll();
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public List<Member> list(DetachedCriteria criteria) {
+/*  66 */     return this.memberDao.list(criteria);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Page pageList(DetachedCriteria criteria, int pageNo, int pageSize) {
+/*  71 */     return this.memberDao.pageList(criteria, pageNo, pageSize);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Page pageList(int pageNo, int pageSize) {
+/*  76 */     DetachedCriteria criteria = DetachedCriteria.forClass(Member.class);
+/*  77 */     Page page = this.memberDao.pageList(criteria, pageNo, pageSize);
+/*  78 */     return page;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Object query(String hql) {
+/*  83 */     return this.memberDao.query(hql);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Number count(DetachedCriteria criteria) {
+/*  88 */     return this.memberDao.count(criteria);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Page findByCondition(int pageNo, int pageSize, String which, String province_name, String city_name, String county_name) {
+/*     */     long five_days_ago;
+/*  94 */     DetachedCriteria criteria = DetachedCriteria.forClass(Member.class).add(Restrictions.isNotNull("mail"));
+/*  95 */     switch (which) {
+/*     */       
+/*     */       case "province_name":
+/*  98 */         criteria.add((Criterion)Property.forName("province_name").like(province_name, MatchMode.ANYWHERE));
+/*     */         break;
+/*     */       
+/*     */       case "city_name":
+/* 102 */         criteria.add((Criterion)Property.forName("city_name").like(city_name, MatchMode.ANYWHERE));
+/*     */         break;
+/*     */       
+/*     */       case "county_name":
+/* 106 */         criteria.add((Criterion)Property.forName("county_name").like(county_name, MatchMode.ANYWHERE));
+/*     */         break;
+/*     */       
+/*     */       case "recent":
+/* 110 */         five_days_ago = System.currentTimeMillis() - 432000000L;
+/* 111 */         criteria.add((Criterion)Restrictions.gt("create_time", Long.valueOf(five_days_ago)));
+/*     */         break;
+/*     */     } 
+/* 114 */     Page page = this.memberDao.pageList(criteria, pageNo, pageSize);
+/* 115 */     return page;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public List<Member> count() {
+/* 120 */     DetachedCriteria criteria = DetachedCriteria.forClass(Member.class);
+/* 121 */     List<Member> members = this.memberDao.list(criteria);
+/* 122 */     return (members.size() > 0) ? members : null;
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public Number countByWhich(String name, String which) {
+/* 128 */     DetachedCriteria criteria = DetachedCriteria.forClass(Member.class).add(Restrictions.isNotNull("mail"));
+/* 129 */     if (which.equals("all")) {
+/* 130 */       return this.memberDao.count(criteria);
+/*     */     }
+/* 132 */     criteria.add((Criterion)Property.forName(which).like(name, MatchMode.ANYWHERE));
+/* 133 */     return this.memberDao.count(criteria);
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public Number countRecent() {
+/* 140 */     DetachedCrite

@@ -1,0 +1,15 @@
+/*    */ package WEB-INF.classes.com.bbkj.domain;
+/*    */ @Entity
+/*    */ @Table(name = "t_history")
+/*    */ public class History {
+/*    */   @Id
+/*    */   @GeneratedValue(strategy = GenerationType.IDENTITY)
+/*    */   private long id;
+/*    */   @Column
+/*    */   private long person_id;
+/*    */   @Column
+/*    */   private long product_id;
+/*    */   @Column
+/*    */   private String ctime;
+/*    */   
+/* 15 */   public void setId(long id) { this.id = id; } public void setPerson_id(long person_id) { this.person_id = person_id; } public void setProduct_id(long product_id) { this.product_id = product_id; } public void setCtime(String ctime) { this.ctime = ctime; } public void setTimestamp(Long timestamp) { this.timestamp = timestamp; } public void setProduct_name(String product_name) { this.product_name = product_name; } public void setProd

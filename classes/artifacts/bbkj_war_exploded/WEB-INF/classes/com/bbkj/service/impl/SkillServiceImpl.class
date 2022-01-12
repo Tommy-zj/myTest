@@ -1,0 +1,42 @@
+/*    */ package com.bbkj.action
+
+-INF.classes.com.bbkj.action;
+/*    */ 
+/*    */ import com.bbkj.common.BaseAction;
+/*    */ import com.bbkj.domain.Merchant;
+/*    */ import com.bbkj.service.MerchantService;
+/*    */ import org.apache.struts2.convention.annotation.Action;
+/*    */ import org.apache.struts2.convention.annotation.InterceptorRef;
+/*    */ import org.apache.struts2.convention.annotation.Namespace;
+/*    */ import org.apache.struts2.convention.annotation.ParentPackage;
+/*    */ import org.hibernate.ObjectNotFoundException;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Controller;
+/*    */ 
+/*    */ @Controller
+/*    */ @ParentPackage("post")
+/*    */ @Namespace("/merchant")
+/*    */ public class MerchantAction
+/*    */   extends BaseAction {
+/*    */   @Autowired
+/*    */   private MerchantService merchantService;
+/*    */   private long person_id;
+/*    */   private String mail;
+/*    */   private long phone;
+/*    */   private String password;
+/*    */   
+/*    */   public void setMerchantService(MerchantService merchantService) {
+/* 27 */     this.merchantService = merchantService; } public void setPerson_id(long person_id) { this.person_id = person_id; } public void setMail(String mail) { this.mail = mail; } public void setPhone(long phone) { this.phone = phone; } public void setPassword(String password) { this.password = password; } public void setMerchant(Merchant merchant) { this.merchant = merchant; }
+/*    */ 
+/*    */   
+/*    */   public MerchantService getMerchantService() {
+/* 31 */     return this.merchantService;
+/* 32 */   } public long getPerson_id() { return this.person_id; }
+/* 33 */   public String getMail() { return this.mail; }
+/* 34 */   public long getPhone() { return this.phone; } public String getPassword() {
+/* 35 */     return this.password;
+/* 36 */   } private Merchant merchant = new Merchant(); public Merchant getMerchant() { return this.merchant; }
+/*    */   
+/*    */   public Merchant setMerchant() {
+/* 39 */     this.merchant.setMail(this.mail);
+/* 40 */     th

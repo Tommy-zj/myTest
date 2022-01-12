@@ -1,0 +1,34 @@
+/*    */ package WEB-INF.classes.com.bbkj.service.impl;
+/*    */ 
+/*    */ import com.bbkj.common.utils.Page;
+/*    */ import com.bbkj.dao.ChatListDao;
+/*    */ import com.bbkj.domain.ChatList;
+/*    */ import com.bbkj.service.ChatListService;
+/*    */ import java.io.Serializable;
+/*    */ import java.util.List;
+/*    */ import org.hibernate.criterion.Criterion;
+/*    */ import org.hibernate.criterion.DetachedCriteria;
+/*    */ import org.hibernate.criterion.Order;
+/*    */ import org.hibernate.criterion.Restrictions;
+/*    */ import org.springframework.beans.factory.annotation.Autowired;
+/*    */ import org.springframework.stereotype.Service;
+/*    */ 
+/*    */ 
+/*    */ @Service
+/*    */ public class ChatListServiceImpl
+/*    */   implements ChatListService
+/*    */ {
+/*    */   @Autowired
+/*    */   private ChatListDao chatListDAO;
+/*    */   
+/*    */   public void setChatListDAO(ChatListDao chatListDAO) {
+/* 25 */     this.chatListDAO = chatListDAO;
+/*    */   }
+/*    */ 
+/*    */   
+/*    */   public ChatListDao getChatListDAO() {
+/* 30 */     return this.chatListDAO;
+/*    */   }
+/*    */   
+/*    */   public ChatList findById(Long id) {
+/* 34 */     return (ChatList)this.chatListDAO.

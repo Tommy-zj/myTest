@@ -1,0 +1,100 @@
+/*     */ package WEB-INF.classes.com.bbkj.service.impl;
+/*     */ 
+/*     */ import com.bbkj.common.utils.Page;
+/*     */ import com.bbkj.dao.DemandDao;
+/*     */ import com.bbkj.domain.Demand;
+/*     */ import com.bbkj.service.DemandService;
+/*     */ import java.io.Serializable;
+/*     */ import java.util.List;
+/*     */ import org.hibernate.Hibernate;
+/*     */ import org.hibernate.criterion.Criterion;
+/*     */ import org.hibernate.criterion.DetachedCriteria;
+/*     */ import org.hibernate.criterion.MatchMode;
+/*     */ import org.hibernate.criterion.Order;
+/*     */ import org.hibernate.criterion.Property;
+/*     */ import org.hibernate.criterion.Restrictions;
+/*     */ import org.springframework.beans.factory.annotation.Autowired;
+/*     */ import org.springframework.stereotype.Service;
+/*     */ 
+/*     */ @Service
+/*     */ public class DemandServiceImpl
+/*     */   implements DemandService
+/*     */ {
+/*     */   public List findByHql(int status, int offset, int pageSize) {
+/*  24 */     DetachedCriteria criteria = DetachedCriteria.forClass(Demand.class);
+/*  25 */     criteria.add((Criterion)Property.forName("status").eq(Integer.valueOf(status)));
+/*  26 */     Page page = this.demandDAO.pageList(criteria, offset, pageSize);
+/*  27 */     List<Demand> demands = page.getPageList();
+/*  28 */     return demands;
+/*     */   }
+/*     */   @Autowired
+/*     */   private DemandDao demandDAO;
+/*     */   public Demand findById(Long id) {
+/*  33 */     Demand demand = (Demand)this.demandDAO.load(id.longValue());
+/*  34 */     Hibernate.initialize(demand);
+/*  35 */     return demand;
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Serializable save(Demand request) {
+/*  40 */     return this.demandDAO.save(request);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void update(Demand request) {
+/*  45 */     this.demandDAO.update(request);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void remove(Demand request) {
+/*  50 */     this.demandDAO.remove(request);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public void remove(long[] ids) {
+/*  55 */     this.demandDAO.remove(ids);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public List<Demand> listAll() {
+/*  60 */     return this.demandDAO.listAll();
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public List<Demand> list(DetachedCriteria criteria) {
+/*  65 */     return this.demandDAO.list(criteria);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Page pageList(DetachedCriteria criteria, int pageNo, int pageSize) {
+/*  70 */     return this.demandDAO.pageList(criteria, pageNo, pageSize);
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public Number count(DetachedCriteria criteria) {
+/*  76 */     return this.demandDAO.count(criteria);
+/*     */   }
+/*     */ 
+/*     */   
+/*     */   public Page findByPerson(long person_id, int status, int pageNo, int pageSize) {
+/*  81 */     DetachedCriteria criteria = DetachedCriteria.forClass(Demand.class);
+/*  82 */     criteria.addOrder(Order.desc("id"));
+/*  83 */     criteria.add((Criterion)Restrictions.eq("person_id", Long.valueOf(person_id)));
+/*  84 */     criteria.add((Criterion)Restrictions.eq("status", Integer.valueOf(status)));
+/*  85 */     return this.demandDAO.pageList(criteria, pageNo, pageSize);
+/*     */   }
+/*     */ 
+/*     */ 
+/*     */ 
+/*     */   
+/*     */   public Page findByContent(String content, int pageNo, int pageSize) {
+/*  92 */     DetachedCriteria criteriaRequest = DetachedCriteria.forClass(Demand.class).add((Criterion)Restrictions.eq("status", Integer.valueOf(2))).add((Criterion)Property.forName("content").like(content, MatchMode.ANYWHERE));
+/*  93 */     return this.demandDAO.pageList(criteriaRequest, pageNo, pageSize);
+/*     */   }
+/*     */   
+/*     */   public Page findDemandByCard(String which, String province_name, String city_name, String county_name, int whichpage, int pagesize) {
+/*     */     long five_days_ago;
+/*  98 */     DetachedCriteria criteria = DetachedCriteria.forClass(Demand.class);
+/*  99 */     criteria.add((Criterion)Restrictions.eq("status", Integer.valueOf(2)));
+/* 10

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!-- 把struts的请求委托给spring管理, 作用:创建Action实例的过程由spring处理,其他的还是由struts2自己处理 -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <constant name="struts.custom.i18n.resources" value="message"/>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.locale" value="zh_CN"/>
+    <constant name="struts.convention.package.locators" value="action,actions,struts,struts2,com"/>
+    <constant name="struts.multipart.maxSize" value="1000000"/>
+    <!-- /static 为存放静态资源的路径，意为不拦截对此文件夹下文件的请求-->
+    <!--过滤掉以websocket起头的请求-->
+    <constant name="struts.action.excludePattern" value="/websocket/.*,/picture/.*"/>
+    <package name="security" extends="struts-default">
+        <interceptors>
+            <interceptor name="myInterceptor" class="com.bbkj.common.security.MyInterceptor"/>
+            <interceptor-stack name="checkStack">
+                <interceptor-ref name="myInterceptor"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="checkStack"/>
+    </package>
+    <package name="noCheck" extends="struts-default,json-default"/>
+    <package name="post" extends="json-default,security"/>
+</struts>
